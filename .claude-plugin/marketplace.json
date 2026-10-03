@@ -1,0 +1,17 @@
+{
+  "name": "peacock",
+  "description": "Context-efficient codebase navigation for coding agents.",
+  "owner": {
+    "name": "Kartikey"
+  },
+  "plugins": [
+    {
+      "name": "peacock",
+      "source": {
+        "source": "github",
+        "repo": "kartikeyagg/peacock"
+      },
+      "description": "Query files, symbols, imports, calls, and blast radius from a compact local graph."
+    }
+  ]
+}

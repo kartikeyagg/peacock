@@ -1,0 +1,131 @@
+<div align="center">
+
+# 🦚 Peacock
+
+### Compact codebase intelligence for Codex and Claude
+
+Peacock builds a local graph of files, classes, functions, imports, and calls.
+Agents query that graph to orient themselves and load only the source relevant
+to a task instead of repeatedly searching and reading whole files.
+
+</div>
+
+## Why use it
+
+```text
+overview           repository map and call-graph coverage
+find X             definitions named X
+outline file       symbols, imports, and importers
+who-calls X        direct callers with source locations
+impact X           reverse-reachable blast radius
+subgraph A B       compact task-specific code slice
+span X             exact source for one symbol
+```
+
+Answers are line-oriented and token-budgeted. Truncation, parser uncertainty,
+and inferred call edges are reported rather than silently hidden.
+
+Everything runs locally using Python's standard library. There is no hosted
+service, account, API key, telemetry, or repository upload.
+
+## Install for Codex
+
+Ask Codex's built-in skill installer:
+
+```text
+$skill-installer
+Install the peacock skill from https://github.com/kartikeyagg/peacock/tree/main/skills/peacock
+```
+
+Restart Codex if the skill does not appear immediately. Invoke it explicitly
+with `$peacock`, or let Codex select it for repository navigation and impact
+analysis.
+
+The repository also includes a Codex plugin manifest for plugin-directory
+distribution.
+
+## Install for Claude Code
+
+Add this repository as a marketplace, then install the plugin:
+
+```bash
+claude plugin marketplace add kartikeyagg/peacock
+claude plugin install peacock@peacock
+```
+
+Start a new session or reload plugins. Invoke the skill as
+`/peacock:peacock`, or let Claude select it automatically.
+
+For a one-off local checkout:
+
+```bash
+claude --plugin-dir /path/to/peacock
+```
+
+## Use the bundled CLI
+
+The skill uses this interface when MCP tools are unavailable:
+
+```bash
+PEACOCK="python3 skills/peacock/scripts/peacock.py"
+$PEACOCK index /path/to/repository
+cd /path/to/repository
+$PEACOCK q overview
+$PEACOCK q find parse
+$PEACOCK q who-calls parse
+$PEACOCK q subgraph parser index
+```
+
+Re-run `index` after changing source. Indexing is incremental.
+
+## Optional MCP server
+
+The Codex and Claude plugin manifests start the bundled stdio MCP server. To
+connect another MCP client, configure:
+
+```json
+{
+  "command": "python3",
+  "args": [
+    "/absolute/path/to/peacock/skills/peacock/scripts/peacock.py",
+    "mcp",
+    "--repo",
+    "/absolute/path/to/your/repository"
+  ]
+}
+```
+
+The server exposes `index`, `overview`, `find`, `outline`, `who_calls`,
+`calls`, `neighbors`, `deps`, `dependents`, `impact`, `subgraph`, `span`,
+`hubs`, and `cycles`.
+
+## Accuracy boundaries
+
+Peacock indexes files, classes, functions, imports, and calls. It does not
+index constants, fields, variables, configuration keys, or string contents;
+use exact text search for those.
+
+Python uses the standard-library AST. Java uses `javac` when a JDK is present.
+Other supported languages use a conservative regex parser. Call resolution is
+static and can miss dynamic dispatch, reflection, and dependency injection.
+Every overview reports coverage, and inferred edges are marked.
+
+## Development
+
+```bash
+python3 -m unittest discover -s skills/peacock/scripts/tests -p 'test_*.py'
+python3 skills/peacock/scripts/peacock.py index .
+python3 skills/peacock/scripts/peacock.py q overview
+```
+
+Python 3.9 or newer is required. A JDK is optional and improves Java results.
+
+## Public and private boundary
+
+This repository contains the agent-facing parser, index, compact query engine,
+skill, and MCP adapter. Peacock's visualization, scoring, layout, and private
+research components are intentionally maintained separately.
+
+## License
+
+MIT

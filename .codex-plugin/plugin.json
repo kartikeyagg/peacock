@@ -1,0 +1,31 @@
+{
+  "name": "peacock",
+  "version": "1.0.0",
+  "description": "Navigate codebases with compact local graph queries instead of broad searches and file reads.",
+  "author": {
+    "name": "Kartikey",
+    "url": "https://github.com/kartikeyagg"
+  },
+  "homepage": "https://github.com/kartikeyagg/peacock",
+  "repository": "https://github.com/kartikeyagg/peacock",
+  "license": "MIT",
+  "keywords": ["code-graph", "callgraph", "context", "navigation", "static-analysis"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Peacock",
+    "shortDescription": "Compact codebase graph queries for agents",
+    "longDescription": "Peacock builds a local index of files, symbols, imports, and calls so Codex can orient itself and load only the source relevant to a task.",
+    "developerName": "Kartikey",
+    "category": "Productivity",
+    "capabilities": ["Local static analysis", "Codebase navigation"],
+    "websiteURL": "https://github.com/kartikeyagg/peacock",
+    "defaultPrompt": [
+      "Map this repository and show me the smallest relevant code slice.",
+      "Find every caller of this function and assess its blast radius."
+    ],
+    "brandColor": "#14B8A6",
+    "composerIcon": "./assets/peacock.svg",
+    "logo": "./assets/peacock.svg"
+  },
+  "mcpServers": "./.mcp.json"
+}

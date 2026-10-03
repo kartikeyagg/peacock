@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "peacock": {
+      "command": "python3",
+      "args": ["./skills/peacock/scripts/peacock.py", "mcp"],
+      "cwd": ".",
+      "startup_timeout_sec": 10,
+      "tool_timeout_sec": 3600
+    }
+  }
+}
