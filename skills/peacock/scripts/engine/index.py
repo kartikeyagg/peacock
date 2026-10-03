@@ -326,13 +326,13 @@ def discover(root, respect_gitignore=True):
             if ig is not None and ig.ignored(rel, False):
                 continue
             ap = os.path.join(dirpath, fn)
-            if os.path.islink(ap):
-                real = os.path.realpath(ap)
-                if real in seen_real:
-                    continue
-                seen_real.add(real)
-            else:
-                seen_real.add(os.path.realpath(ap))
+            # Check every candidate, not only symlinks. Directory iteration is
+            # not ordered consistently across operating systems: when an alias
+            # appears before its target, the target must still be suppressed.
+            real = os.path.realpath(ap)
+            if real in seen_real:
+                continue
+            seen_real.add(real)
             yield rel, ap
 
 
