@@ -1,0 +1,10 @@
+interface:
+  display_name: "Peacock"
+  short_description: "Navigate codebases with compact graph queries"
+  icon_small: "./assets/peacock.svg"
+  icon_large: "./assets/peacock.svg"
+  brand_color: "#14B8A6"
+  default_prompt: "Use $peacock to map this repository and load only the source needed for my task."
+
+policy:
+  allow_implicit_invocation: true

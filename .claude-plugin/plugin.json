@@ -1,0 +1,19 @@
+{
+  "name": "peacock",
+  "version": "1.0.0",
+  "description": "Navigate codebases with compact local graph queries instead of broad searches and file reads.",
+  "author": {
+    "name": "Kartikey"
+  },
+  "homepage": "https://github.com/kartikeyagg/peacock",
+  "repository": "https://github.com/kartikeyagg/peacock",
+  "license": "MIT",
+  "keywords": ["code-graph", "callgraph", "context", "navigation", "static-analysis"],
+  "mcpServers": {
+    "peacock": {
+      "command": "python3",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/skills/peacock/scripts/peacock.py", "mcp"],
+      "env": {}
+    }
+  }
+}
