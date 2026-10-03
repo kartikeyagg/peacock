@@ -1,0 +1,44 @@
+name: Cross-platform tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python: ["3.9", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Run core tests
+        run: python -m unittest discover -s skills/peacock/scripts/tests -p "test_index.py" -v
+
+      - name: Run language tests
+        run: python -m unittest discover -s skills/peacock/scripts/tests -p "test_languages.py" -v
+
+      - name: Run compiler frontend tests
+        run: python -m unittest discover -s skills/peacock/scripts/tests -p "test_frontends.py" -v
+
+      - name: Smoke test indexing and queries
+        run: |
+          python skills/peacock/scripts/peacock.py index . --quiet
+          python skills/peacock/scripts/peacock.py q overview --budget 250

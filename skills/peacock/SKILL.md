@@ -14,12 +14,13 @@ locally; repository contents never leave the machine.
 If Peacock MCP tools are connected, use them directly. Call `index` with the
 repository root before the first query and after edits.
 
-Otherwise, set `PEACOCK_SKILL_DIR` to the absolute directory containing this
-`SKILL.md`, then run the bundled dependency-free CLI:
+Otherwise, resolve the directory containing this `SKILL.md` and run the
+bundled dependency-free CLI. Use `python3` on Linux/macOS; on Windows use the
+first working choice among `py -3`, `python`, and `python3`:
 
 ```bash
-python3 "$PEACOCK_SKILL_DIR/scripts/peacock.py" index .
-python3 "$PEACOCK_SKILL_DIR/scripts/peacock.py" q overview
+python3 "<skill-dir>/scripts/peacock.py" index .
+python3 "<skill-dir>/scripts/peacock.py" q overview
 ```
 
 Keep using the same runner path for the commands below.
@@ -53,7 +54,7 @@ Keep using the same runner path for the commands below.
 Use `path:name` to disambiguate repeated names, for example:
 
 ```bash
-python3 "$PEACOCK_SKILL_DIR/scripts/peacock.py" q who-calls engine/index.py:_resolve_import
+python3 "<skill-dir>/scripts/peacock.py" q who-calls engine/index.py:_resolve_import
 ```
 
 ## Interpret results conservatively

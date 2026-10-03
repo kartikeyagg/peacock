@@ -28,6 +28,10 @@ and inferred call edges are reported rather than silently hidden.
 Everything runs locally using Python's standard library. There is no hosted
 service, account, API key, telemetry, or repository upload.
 
+See [REQUIREMENTS.md](REQUIREMENTS.md) for Linux, macOS, and Windows setup,
+custom `PATH`/`JAVA_HOME` configuration, and troubleshooting when Python or the
+JDK is installed but not visible to Codex or Claude.
+
 ## Install for Codex
 
 Ask Codex's built-in skill installer:
@@ -118,7 +122,9 @@ python3 skills/peacock/scripts/peacock.py index .
 python3 skills/peacock/scripts/peacock.py q overview
 ```
 
-Python 3.9 or newer is required. A JDK is optional and improves Java results.
+Python 3.9 or newer is required. JDK 17 or newer is optional and improves Java
+results. Full platform setup is documented in
+[REQUIREMENTS.md](REQUIREMENTS.md).
 
 ## Public and private boundary
 
