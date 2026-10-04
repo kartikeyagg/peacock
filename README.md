@@ -6,14 +6,14 @@
 
 Peacock builds a local graph of files, classes, functions, imports, and calls.
 Agents query that graph to orient themselves and load only the source relevant
-to a task instead of repeatedly searching and reading whole files.
+to a task instead of repeatedly searching and reading whole files.  s
 
 </div>
 
 ## Why use it
 
 ```text
-overview           repository map and call-graph coverage
+overview           repository map and call-graph coverageb 
 find X             definitions named X
 outline file       symbols, imports, and importers
 who-calls X        direct callers with source locations
