@@ -6,14 +6,14 @@
 
 Peacock builds a local graph of files, classes, functions, imports, and calls.
 Agents query that graph to orient themselves and load only the source relevant
-to a task instead of repeatedly searching and reading whole files.
+to a task instead of repeatedly searching and reading whole files.  s
 
 </div>
 
 ## Why use it
 
 ```text
-overview           repository map and call-graph coverage
+overview           repository map and call-graph coverageb 
 find X             definitions named X
 outline file       symbols, imports, and importers
 who-calls X        direct callers with source locations
@@ -66,6 +66,10 @@ For a one-off local checkout:
 claude --plugin-dir /path/to/peacock
 ```
 
+> **Windows:** the plugin starts its MCP server with `python3`, which on most
+> Windows machines is a Microsoft Store placeholder rather than Python, so the
+> server fails with `Connection closed`. See [Windows setup](#windows-setup).
+
 ## Use the bundled CLI
 
 The skill uses this interface when MCP tools are unavailable:
@@ -81,6 +85,52 @@ $PEACOCK q subgraph parser index
 ```
 
 Re-run `index` after changing source. Indexing is incremental.
+
+## Windows setup
+
+On Windows, `python3` usually is not a real interpreter, and the commands above
+use Bash syntax. In PowerShell, use a local checkout whose MCP server is started
+with the Python launcher (`py -3`) instead:
+
+```powershell
+# 1. Get a local copy
+$Peacock = "$HOME\peacock"
+git clone https://github.com/kartikeyagg/peacock.git $Peacock
+
+# 2. Start the MCP server with `py -3` instead of `python3`
+foreach ($f in "$Peacock\.claude-plugin\plugin.json", "$Peacock\.mcp.json") {
+    (Get-Content $f -Raw) -replace '"command": "python3",\s*"args": \[', '"command": "py", "args": ["-3", ' |
+        Set-Content $f
+}
+
+# 3. Start Claude Code with the plugin
+claude --plugin-dir $Peacock
+```
+
+Without git, replace step 1 with a zip download:
+
+```powershell
+$Peacock = "$HOME\peacock"
+Invoke-WebRequest https://github.com/kartikeyagg/peacock/archive/refs/heads/main.zip -OutFile "$env:TEMP\peacock.zip"
+Expand-Archive "$env:TEMP\peacock.zip" -DestinationPath "$env:TEMP\peacock-zip" -Force
+Move-Item "$env:TEMP\peacock-zip\peacock-main" $Peacock
+```
+
+If `py` is not installed but `python` works, use `'"command": "python", "args": ['`
+as the replacement in step 2.
+
+The CLI in PowerShell:
+
+```powershell
+$PeacockCli = "$Peacock\skills\peacock\scripts\peacock.py"
+py -3 $PeacockCli index C:\path\to\repository
+Set-Location C:\path\to\repository
+py -3 $PeacockCli q overview
+py -3 $PeacockCli q find parse
+```
+
+See [REQUIREMENTS.md](REQUIREMENTS.md#windows) for installing Python and the
+JDK, and for `PATH` troubleshooting.
 
 ## Optional MCP server
 
