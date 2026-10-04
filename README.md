@@ -6,7 +6,7 @@
 
 Peacock builds a local graph of files, classes, functions, imports, and calls.
 Agents query that graph to orient themselves and load only the source relevant
-to a task instead of repeatedly searching and reading whole files.  s
+to a task instead of repeatedly searching and reading whole files.  The Aim of this project is to ease the AI driven  development . More features are on the way .
 
 </div>
 
