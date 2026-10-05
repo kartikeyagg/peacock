@@ -138,6 +138,12 @@ def cmd_query(argv):
     return 0
 
 
+def cmd_map(argv):
+    import peacock_map
+
+    return peacock_map.main(argv)
+
+
 def cmd_mcp(argv):
     import peacock_mcp
 
@@ -152,6 +158,7 @@ def main(argv=None):
             "Commands:\n"
             "  peacock index [repo]    Build/update the local graph\n"
             "  peacock q <command>     Query the graph\n"
+            "  peacock map [repo]      AI-readiness scorecard and 3D map\n"
             "  peacock mcp             Serve the graph over MCP stdio"
         )
         return 0
@@ -160,6 +167,8 @@ def main(argv=None):
         return cmd_index(rest)
     if command in ("q", "query"):
         return cmd_query(rest)
+    if command == "map":
+        return cmd_map(rest)
     if command == "mcp":
         return cmd_mcp(rest)
     raise SystemExit(f"Unknown command: {command}. Try: peacock --help")

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Peacock 🦚 — Codebase Map</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- ===== Top bar ===== -->
+    <header id="topbar">
+      <div class="brand">
+        <span class="peacock">🦚</span>
+        <div class="brand-text">
+          <span class="brand-name">Peacock</span>
+          <span class="brand-sub" id="repo-name">codebase map</span>
+        </div>
+      </div>
+      <div class="top-score" id="top-score">
+        <div class="score-ring" id="score-ring">
+          <span class="score-num" id="score-num">–</span>
+          <span class="score-max">/100</span>
+        </div>
+        <div class="score-meta">
+          <span class="grade" id="score-grade">–</span>
+          <span class="score-label">AI-readiness</span>
+        </div>
+      </div>
+      <div class="top-actions">
+        <input id="search" type="text" placeholder="🔍  Search symbols, files…" autocomplete="off" />
+        <div id="view-toggle" title="Switch view (v)">
+          <button data-view="nebula" title="Nebula — 3D graph">🌌</button>
+          <button data-view="atlas" title="Atlas — flat 2D map">🗺</button>
+        </div>
+        <button id="btn-reset" title="Reset camera">⟲</button>
+        <button id="btn-labels" title="Toggle labels" class="active">Aa</button>
+        <button id="btn-help" title="Help">?</button>
+      </div>
+    </header>
+
+    <!-- ===== Left rail: metrics + legend + filters ===== -->
+    <aside id="left">
+      <section class="panel">
+        <h2>Scorecard</h2>
+        <div id="metrics"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Node types <span class="muted" id="node-total"></span></h2>
+        <div id="legend"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Edges</h2>
+        <div id="edge-legend"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Overview <span class="muted">· full repo</span></h2>
+        <div id="overview"></div>
+      </section>
+    </aside>
+
+    <!-- ===== 3D canvas ===== -->
+    <main id="stage">
+      <canvas id="scene"></canvas>
+      <div id="hover-label" class="hover-label"></div>
+      <div id="loading" class="loading">
+        <div class="loader-peacock">🦚</div>
+        <div class="loader-text">Rendering codebase…</div>
+      </div>
+      <div id="hud" class="hud"></div>
+    </main>
+
+    <!-- ===== Right rail: inspector + live extend ===== -->
+    <aside id="right">
+      <section class="panel" id="inspector-panel">
+        <h2>Inspector</h2>
+        <div id="inspector" class="inspector-empty">
+          Click any node to inspect it.<br />
+          <span class="muted">Drag to orbit · scroll to zoom · right-drag to pan.</span>
+        </div>
+      </section>
+
+      <section class="panel" id="extend-panel">
+        <h2>Extend live <span class="beta">real-time</span></h2>
+        <p class="hint">Add an import or library and watch the graph grow. Pick a
+          file to attach it to (or leave blank for a floating library).</p>
+        <label class="fld">
+          <span>Import / library name</span>
+          <input id="ext-name" type="text" placeholder="e.g. numpy, react, tokio" />
+        </label>
+        <label class="fld">
+          <span>Attach to file (optional)</span>
+          <input id="ext-attach" type="text" list="file-list" placeholder="start typing a file…" />
+          <datalist id="file-list"></datalist>
+        </label>
+        <div class="ext-kind">
+          <label><input type="radio" name="ekind" value="Library" checked /> Library</label>
+          <label><input type="radio" name="ekind" value="Module" /> Module</label>
+          <label><input type="radio" name="ekind" value="File" /> File</label>
+        </div>
+        <button id="ext-add" class="primary">＋ Add to graph</button>
+        <div id="ext-log" class="ext-log"></div>
+      </section>
+    </aside>
+
+    <!-- ===== Help overlay ===== -->
+    <div id="help" class="overlay hidden">
+      <div class="overlay-card">
+        <button class="overlay-close" id="help-close">✕</button>
+        <h2>🦚 Peacock — how to read the map</h2>
+        <ul class="help-list">
+          <li><b>Two views, press <kbd>v</kbd></b> (or the 🌌 / 🗺 buttons).
+            <b>Nebula</b> is the 3D graph — beautiful, but long edges fade into
+            the distance and depth is ambiguous. <b>Atlas</b> is a flat map:
+            every directory is a labelled rectangle, its files a grid inside,
+            and every arc visibly starts and ends.</li>
+          <li><b>In Atlas</b>, drag to pan and scroll to zoom (no orbiting —
+            that is the point). Containment needs no lines: the rectangle is
+            the containment. Cross-directory imports collapse into one weighted
+            route per pair, and <b>click a file</b> to fan out its functions and
+            see its exact wires.</li>
+          <li><b>Every point is a code entity.</b> Colour = type (see the legend), size = importance (connections).</li>
+          <li><b>Lines are relationships</b> — containment, imports and calls.</li>
+          <li><b>Orbit</b> by dragging, <b>zoom</b> by scrolling, <b>pan</b> with right-drag or two-finger drag.</li>
+          <li><b>Hover</b> to name a node, <b>click</b> to inspect it and highlight its neighbourhood.</li>
+          <li><b>Search</b> to fly the camera to a symbol.</li>
+          <li><b>Extend live</b> (right panel) to graft a new import/library on and watch it settle in.</li>
+          <li><b>Open in VS Code</b> — with a node selected, press <kbd>o</kbd> (or use the Inspector button) to jump to that file/function in your editor. Peacock offers to open the project on launch.</li>
+        </ul>
+        <p class="muted">The five scores on the left rate how easy this codebase is for a
+          future AI agent to navigate, extend and reason about with minimal context.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="vendor/three.min.js"></script>
+  <script src="vendor/OrbitControls.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
