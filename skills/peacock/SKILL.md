@@ -73,3 +73,16 @@ python3 "<skill-dir>/scripts/peacock.py" q who-calls engine/index.py:_resolve_im
 Peacock does not index constants, fields, variables, configuration keys, or
 string contents. Use exact text search for those and to prove that a reference
 does not exist.
+
+## Scorecard and map for humans
+
+When the user asks how agent-friendly a repository is, or wants to see its
+structure, run `map`. It is not for agent navigation: it starts a local server
+and opens a browser.
+
+```bash
+python3 "<skill-dir>/scripts/peacock.py" map . --json   # scorecard only, safe in a terminal
+python3 "<skill-dir>/scripts/peacock.py" map .          # scorecard + interactive map (blocks; Ctrl+C stops it)
+```
+
+Report the overall score, the five metric scores, and the listed suggestions.

@@ -20,6 +20,7 @@ who-calls X        direct callers with source locations
 impact X           reverse-reachable blast radius
 subgraph A B       compact task-specific code slice
 span X             exact source for one symbol
+map                AI-readiness scorecard + interactive 3D/2D code map
 ```
 
 Answers are line-oriented and token-budgeted. Truncation, parser uncertainty,
@@ -85,6 +86,22 @@ $PEACOCK q subgraph parser index
 ```
 
 Re-run `index` after changing source. Indexing is incremental.
+
+## See the map
+
+`peacock map` is for humans: it scores a repository's AI-readiness out of 100
+and opens an interactive map of its files, classes, functions, imports and
+calls in your browser.
+
+```bash
+$PEACOCK map /path/to/repository             # scorecard + live map
+$PEACOCK map /path/to/repository --view atlas # start in the flat 2D view
+$PEACOCK map /path/to/repository --json       # scorecard only, as JSON
+```
+
+The map is drawn from the same index `peacock q` answers from, is served on
+`127.0.0.1` only, and needs no network. See [docs/MAP.md](docs/MAP.md) for the
+five metrics, the views, keyboard shortcuts and the VS Code bridge.
 
 ## Windows setup
 
@@ -170,6 +187,7 @@ Every overview reports coverage, and inferred edges are marked.
 python3 -m unittest discover -s skills/peacock/scripts/tests -p 'test_*.py'
 python3 skills/peacock/scripts/peacock.py index .
 python3 skills/peacock/scripts/peacock.py q overview
+python3 skills/peacock/scripts/peacock.py map . --build-only
 ```
 
 Python 3.9 or newer is required. JDK 17 or newer is optional and improves Java
@@ -179,8 +197,8 @@ results. Full platform setup is documented in
 ## Public and private boundary
 
 This repository contains the agent-facing parser, index, compact query engine,
-skill, and MCP adapter. Peacock's visualization, scoring, layout, and private
-research components are intentionally maintained separately.
+skill, MCP adapter, and the `map` scorecard and visualization. Research
+write-ups and experimental analyses are maintained separately.
 
 ## License
 

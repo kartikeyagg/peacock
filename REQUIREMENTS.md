@@ -12,6 +12,7 @@ contents and does not require an API key or a hosted Peacock service.
 | JDK | No | JDK 17 or newer recommended | Gives Java compiler-grade symbols and call resolution |
 | Git | Installation only | Any maintained version | Clones or updates the public repository |
 | Write access | Yes | — | Creates `.peacock/index.db` inside the repository being indexed |
+| Web browser | `map` only | Any with WebGL | Displays the `peacock map` view; no internet access needed |
 
 Python includes the `ast` compiler frontend Peacock uses for Python source.
 There is no separate Python compiler to install.
@@ -350,6 +351,7 @@ py -3 .\skills\peacock\scripts\peacock.py index . --force
 
 ## Files Peacock creates
 
-Peacock writes `.peacock/index.db` inside the indexed repository. The directory
+Peacock writes `.peacock/index.db` inside the indexed repository, and
+`peacock map` writes its report to `.peacock/report/` unless `--out` is given. The directory
 is safe to delete because it is regenerated from source, but it should normally
 be added to `.gitignore` and left in place for fast incremental re-indexing.

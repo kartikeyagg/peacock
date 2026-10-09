@@ -38,7 +38,11 @@ jobs:
       - name: Run compiler frontend tests
         run: python -m unittest discover -s skills/peacock/scripts/tests -p "test_frontends.py" -v
 
+      - name: Run map tests
+        run: python -m unittest discover -s skills/peacock/scripts/tests -p "test_map.py" -v
+
       - name: Smoke test indexing and queries
         run: |
           python skills/peacock/scripts/peacock.py index . --quiet
           python skills/peacock/scripts/peacock.py q overview --budget 250
+          python skills/peacock/scripts/peacock.py map . --json

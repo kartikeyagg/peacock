@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="38%" r="75%">
+      <stop offset="0%" stop-color="#101830"/>
+      <stop offset="100%" stop-color="#05060b"/>
+    </radialGradient>
+    <linearGradient id="plume" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#14e0c8"/>
+      <stop offset="55%" stop-color="#3a7bff"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <radialGradient id="eye" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffd24a"/>
+      <stop offset="45%" stop-color="#14e0c8"/>
+      <stop offset="100%" stop-color="#3a7bff"/>
+    </radialGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="256" height="256" rx="56" fill="url(#bg)"/>
+
+  <!-- three feather plumes fanning out -->
+  <g filter="url(#glow)" fill="none" stroke="url(#plume)" stroke-linecap="round">
+    <path d="M128 196 C 96 150, 78 108, 84 66" stroke-width="9"/>
+    <path d="M128 196 C 128 148, 128 104, 128 58" stroke-width="10"/>
+    <path d="M128 196 C 160 150, 178 108, 172 66" stroke-width="9"/>
+  </g>
+
+  <!-- barbs -->
+  <g stroke="#14e0c8" stroke-width="2.4" opacity="0.55" stroke-linecap="round">
+    <path d="M100 120 l-16 -6 M104 100 l-16 -7 M110 82 l-15 -8"/>
+    <path d="M128 116 l-14 -2 M128 96 l-14 -2 M128 78 l-14 -2"/>
+    <path d="M156 120 l16 -6 M152 100 l16 -7 M146 82 l15 -8"/>
+  </g>
+
+  <!-- three eyes -->
+  <g filter="url(#glow)">
+    <circle cx="84" cy="60" r="17" fill="url(#eye)"/>
+    <circle cx="128" cy="52" r="19" fill="url(#eye)"/>
+    <circle cx="172" cy="60" r="17" fill="url(#eye)"/>
+    <circle cx="84" cy="60" r="6" fill="#0a1230"/>
+    <circle cx="128" cy="52" r="7" fill="#0a1230"/>
+    <circle cx="172" cy="60" r="6" fill="#0a1230"/>
+  </g>
+
+  <!-- base node -->
+  <circle cx="128" cy="200" r="9" fill="#14e0c8" filter="url(#glow)"/>
+</svg>
