@@ -85,6 +85,9 @@ $PEACOCK q who-calls parse
 $PEACOCK q subgraph parser index
 ```
 
+> **Windows (PowerShell):** replace `python3` with `py -3` (or `python`).
+> See [Windows setup](#windows-setup) for full PowerShell equivalents.
+
 Re-run `index` after changing source. Indexing is incremental.
 
 ## See the map
@@ -98,6 +101,9 @@ $PEACOCK map /path/to/repository             # scorecard + live map
 $PEACOCK map /path/to/repository --view atlas # start in the flat 2D view
 $PEACOCK map /path/to/repository --json       # scorecard only, as JSON
 ```
+
+> **Windows (PowerShell):** `py -3 $PeacockCli map C:\path\to\repository`
+> (same `py -3` substitution as the CLI above).
 
 The map is drawn from the same index `peacock q` answers from, is served on
 `127.0.0.1` only, and needs no network. See [docs/MAP.md](docs/MAP.md) for the
@@ -154,6 +160,8 @@ JDK, and for `PATH` troubleshooting.
 The Codex and Claude plugin manifests start the bundled stdio MCP server. To
 connect another MCP client, configure:
 
+Linux / macOS:
+
 ```json
 {
   "command": "python3",
@@ -162,6 +170,21 @@ connect another MCP client, configure:
     "mcp",
     "--repo",
     "/absolute/path/to/your/repository"
+  ]
+}
+```
+
+Windows (use `py` with `"-3"` instead of `python3`):
+
+```json
+{
+  "command": "py",
+  "args": [
+    "-3",
+    "C:\\path\\to\\peacock\\skills\\peacock\\scripts\\peacock.py",
+    "mcp",
+    "--repo",
+    "C:\\path\\to\\your\\repository"
   ]
 }
 ```
@@ -182,6 +205,8 @@ static and can miss dynamic dispatch, reflection, and dependency injection.
 Every overview reports coverage, and inferred edges are marked.
 
 ## Development
+
+Linux / macOS (on Windows, use `py -3` instead of `python3`):
 
 ```bash
 python3 -m unittest discover -s skills/peacock/scripts/tests -p 'test_*.py'
